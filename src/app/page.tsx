@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 type Category = 'Food' | 'Housing' | 'Legal' | 'Healthcare';
 type Language = 'EN' | 'ES' | 'RU';
@@ -17,7 +17,7 @@ export default function Home() {
     e.preventDefault();
     setLoading(true);
     try {
-      const result = await axios.post('/api/ask', {
+      const result = await axios.post('http://localhost:3001/api/ask', {
         question,
         category,
         language,
@@ -25,7 +25,11 @@ export default function Home() {
       setResponse(result.data.response);
     } catch (error) {
       console.error('Error:', error);
-      setResponse('Sorry, there was an error processing your question.');
+      if (error instanceof AxiosError) {
+        setResponse(error.response?.data?.error || 'Sorry, there was an error processing your question. Please make sure the backend server is running.');
+      } else {
+        setResponse('Sorry, there was an error processing your question. Please make sure the backend server is running.');
+      }
     }
     setLoading(false);
   };
