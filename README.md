@@ -1,4 +1,6 @@
 # NYC Help Me
+🏆 **Winner of the 2025 NYC Impact Prize – Llama Hackathon **  
+> *Awarded to the project demonstrating the most meaningful impact on the New York City community.*
 
 A web application that helps NYC residents get answers to their questions about city services using AI. Built for the Llama hackathon.
 
