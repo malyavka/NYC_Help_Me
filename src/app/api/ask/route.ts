@@ -1,22 +1,38 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: Request) {
-  try {
-    const { question, category, language } = await request.json();
+export async function POST(req: NextRequest) {
+  const { question, category, language } = await req.json();
 
-    // TODO: Replace with actual LLaMA API integration
-    // This is a mock response for now
-    const mockResponse = {
-      response: `Here's a mock response for your question about ${category} in ${language}: ${question}`,
-      source: 'https://www.nyc.gov'
-    };
+  const prompt = `As an AI assistant for NYC services, provide information about ${category}. 
+Question: ${question}
+Respond in ${language === 'EN' ? 'English' : language === 'ES' ? 'Spanish' : 'Russian'}.`;
 
-    return NextResponse.json(mockResponse);
-  } catch (error) {
-    console.error('Error processing request:', error);
-    return NextResponse.json(
-      { error: 'Failed to process your question' },
-      { status: 500 }
-    );
-  }
-} 
+  const llamaResponse = await fetch('https://api.llama.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.LLAMA_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: 'llama-2-70b-chat',
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a helpful assistant providing information about NYC services.'
+        },
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 500
+    })
+  });
+
+  const data = await llamaResponse.json();
+
+  return NextResponse.json({
+    response: data.choices?.[0]?.message?.content || 'No answer generated.'
+  });
+}

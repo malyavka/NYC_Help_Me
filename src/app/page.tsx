@@ -89,7 +89,7 @@ export default function Home() {
       <footer className="mt-8 text-center text-sm text-gray-600">
         <p>This is an AI-powered service. Responses may not always be accurate.</p>
         <a
-          href="https://github.com/yourusername/nyc-help-me"
+          href="https://github.com/maryiababinova/nyc-help"
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 hover:underline mt-2 inline-block"
