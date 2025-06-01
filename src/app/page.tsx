@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 
-type Category = 'Food' | 'Housing' | 'Legal' | 'Healthcare';
+type Category = 'Food' | 'Housing' | 'Legal' | 'Healthcare' | 'Free Resources';
 type Language = 'EN' | 'ES' | 'RU';
 
 export default function Home() {
@@ -61,6 +61,7 @@ export default function Home() {
             <option value="Housing">Housing</option>
             <option value="Legal">Legal</option>
             <option value="Healthcare">Healthcare</option>
+            <option value="Free Resources">Free Resources</option>
           </select>
 
           <select
