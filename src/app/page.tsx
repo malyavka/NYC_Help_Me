@@ -18,8 +18,8 @@ export default function Home() {
     setLoading(true);
     try {
       const apiUrl = process.env.NODE_ENV === 'production' 
-        ? '/api/ask'  // Use relative URL in production
-        : 'http://localhost:3001/api/ask';  // Use full URL in development
+        ? '/api/ask'
+        : 'http://localhost:3001/api/ask';
 
       const result = await axios.post(apiUrl, {
         question,
@@ -39,18 +39,18 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen p-4 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-center">
+    <div className="max-w-2xl mx-auto">
+      <h1 className="text-3xl font-bold mb-8 text-center text-gray-900">
         Ask your question about NYC services
       </h1>
       
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <textarea
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="Type your question here..."
-            className="w-full p-2 border rounded-lg min-h-[100px]"
+            className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[120px] resize-none"
             required
           />
         </div>
@@ -59,7 +59,7 @@ export default function Home() {
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value as Category)}
-            className="flex-1 p-2 border rounded-lg appearance-none bg-white text-center"
+            className="flex-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white text-center"
           >
             <option value="Food">Food</option>
             <option value="Housing">Housing</option>
@@ -71,7 +71,7 @@ export default function Home() {
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value as Language)}
-            className="flex-1 p-2 border rounded-lg appearance-none bg-white text-center"
+            className="flex-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white text-center"
           >
             <option value="EN">EN</option>
             <option value="ES">ES</option>
@@ -82,28 +82,29 @@ export default function Home() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
+          className="w-full bg-blue-600 text-white p-4 rounded-lg shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors"
         >
           {loading ? 'Processing...' : 'Ask AI'}
         </button>
       </form>
 
       {response && (
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg flex items-start">
-          <div className="flex-shrink-0 mr-3">
-            {/* Placeholder Assistant Icon (replace with your image or SVG) */}
-            <svg className="h-8 w-8 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-            </svg>
-          </div>
-          <div>
-            <h2 className="font-semibold mb-2">Response:</h2>
-            <p className="whitespace-pre-wrap">{response}</p>
+        <div className="mt-8 p-6 bg-gray-50 rounded-lg shadow-sm border border-gray-200">
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0">
+              <svg className="h-8 w-8 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </div>
+            <div className="flex-1">
+              <h2 className="text-lg font-semibold text-gray-900 mb-2">Response:</h2>
+              <p className="text-gray-700 whitespace-pre-wrap">{response}</p>
+            </div>
           </div>
         </div>
       )}
 
-      <footer className="mt-8 text-center text-sm text-gray-600">
+      <footer className="mt-12 text-center text-sm text-gray-600">
         <p>This is an AI-powered service. Responses may not always be accurate.</p>
         <a
           href="https://github.com/malyavka/NYC_Help_Me"
@@ -114,6 +115,6 @@ export default function Home() {
           View on GitHub
         </a>
       </footer>
-    </main>
+    </div>
   );
 } 
