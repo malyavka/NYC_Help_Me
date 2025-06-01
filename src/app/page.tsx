@@ -17,7 +17,11 @@ export default function Home() {
     e.preventDefault();
     setLoading(true);
     try {
-      const result = await axios.post('http://localhost:3001/api/ask', {
+      const apiUrl = process.env.NODE_ENV === 'production' 
+        ? '/api/ask'  // Use relative URL in production
+        : 'http://localhost:3001/api/ask';  // Use full URL in development
+
+      const result = await axios.post(apiUrl, {
         question,
         category,
         language,
@@ -26,9 +30,9 @@ export default function Home() {
     } catch (error) {
       console.error('Error:', error);
       if (error instanceof AxiosError) {
-        setResponse(error.response?.data?.error || 'Sorry, there was an error processing your question. Please make sure the backend server is running.');
+        setResponse(error.response?.data?.error || 'Sorry, there was an error processing your question. Please try again.');
       } else {
-        setResponse('Sorry, there was an error processing your question. Please make sure the backend server is running.');
+        setResponse('Sorry, there was an error processing your question. Please try again.');
       }
     }
     setLoading(false);

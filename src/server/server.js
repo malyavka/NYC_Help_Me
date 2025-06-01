@@ -4,14 +4,19 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
-const apiKey = process.env.GROQ_API_KEY;
 
+// Enable CORS for all routes
 app.use(cors());
 app.use(express.json());
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 app.post('/api/ask', async (req, res) => {
   const { question, category, language } = req.body;
+  const apiKey = process.env.GROQ_API_KEY;
 
   const prompt = `As an AI assistant for NYC services, provide information about ${category}.
 Question: ${question}
@@ -49,6 +54,13 @@ Respond in ${language === 'EN' ? 'English' : language === 'ES' ? 'Spanish' : 'Ru
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
-});
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`Server listening on http://localhost:${PORT}`);
+  });
+}
+
+// Export the Express API
+module.exports = app;
