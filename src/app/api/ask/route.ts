@@ -1,36 +1,43 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getPrompt } from './prompt';
 
 export async function POST(req: NextRequest) {
   const { question, category, language } = await req.json();
+  const apiKey = process.env.GROQ_API_KEY;
 
-  const llamaResponse = await fetch('https://api.llama.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${process.env.LLAMA_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      model: 'llama-2-70b-chat',
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a NYC employee, knowledgeable about the city and services it provvides.'
-        },
-        {
-          role: 'user',
-          content: getPrompt(question, category, language)
-        }
-      ],
-      temperature: 0.7,
-      max_tokens: 500,
-      top_p: 1,
-    })
-  });
+  const prompt = `As an AI assistant for NYC services, provide information about ${category}.
+Question: ${question}
+Respond in ${language === 'EN' ? 'English' : language === 'ES' ? 'Spanish' : 'Russian'}.`;
 
-  const data = await llamaResponse.json();
+  try {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "llama3-8b-8192",
+        messages: [
+          { role: "system", content: "You are a helpful assistant for NYC services." },
+          { role: "user", content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 500
+      })
+    });
 
-  return NextResponse.json({
-    response: data.choices?.[0]?.message?.content || 'No answer generated.'
-  });
+    const data = await response.json();
+
+    if (!data.choices || !data.choices[0]?.message?.content) {
+      return NextResponse.json({ error: "Invalid response from Groq API" }, { status: 500 });
+    }
+
+    return NextResponse.json({ response: data.choices[0].message.content });
+  } catch (error) {
+    console.error('Groq API Error:', error);
+    return NextResponse.json(
+      { error: 'Groq API failed', details: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 500 }
+    );
+  }
 }

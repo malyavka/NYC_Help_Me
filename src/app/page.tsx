@@ -17,11 +17,7 @@ export default function Home() {
     e.preventDefault();
     setLoading(true);
     try {
-      const apiUrl = process.env.NODE_ENV === 'production' 
-        ? '/api/ask'
-        : 'http://localhost:3001/api/ask';
-
-      const result = await axios.post(apiUrl, {
+      const result = await axios.post('/api/ask', {
         question,
         category,
         language,
@@ -39,7 +35,7 @@ export default function Home() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-center text-gray-900">
         Ask your question about NYC services
       </h1>
@@ -55,28 +51,42 @@ export default function Home() {
           />
         </div>
 
-        <div className="flex gap-4">
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value as Category)}
-            className="flex-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white text-center"
-          >
-            <option value="Food">Food</option>
-            <option value="Housing">Housing</option>
-            <option value="Legal">Legal</option>
-            <option value="Healthcare">Healthcare</option>
-            <option value="Free Resources">Free Resources</option>
-          </select>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="relative flex-1">
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value as Category)}
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white text-center"
+            >
+              <option value="Food">Food</option>
+              <option value="Housing">Housing</option>
+              <option value="Legal">Legal</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Free Resources">Free Resources</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+              </svg>
+            </div>
+          </div>
 
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value as Language)}
-            className="flex-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white text-center"
-          >
-            <option value="EN">EN</option>
-            <option value="ES">ES</option>
-            <option value="RU">RU</option>
-          </select>
+          <div className="relative flex-1">
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as Language)}
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white text-center"
+            >
+              <option value="EN">EN</option>
+              <option value="ES">ES</option>
+              <option value="RU">RU</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+              </svg>
+            </div>
+          </div>
         </div>
 
         <button
