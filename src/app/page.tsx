@@ -55,7 +55,7 @@ export default function Home() {
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value as Category)}
-            className="flex-1 p-2 border rounded-lg"
+            className="flex-1 p-2 border rounded-lg appearance-none bg-white text-center"
           >
             <option value="Food">Food</option>
             <option value="Housing">Housing</option>
@@ -66,11 +66,11 @@ export default function Home() {
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value as Language)}
-            className="flex-1 p-2 border rounded-lg"
+            className="flex-1 p-2 border rounded-lg appearance-none bg-white text-center"
           >
-            <option value="EN">English</option>
-            <option value="ES">Español</option>
-            <option value="RU">Русский</option>
+            <option value="EN">EN</option>
+            <option value="ES">ES</option>
+            <option value="RU">RU</option>
           </select>
         </div>
 
@@ -84,16 +84,24 @@ export default function Home() {
       </form>
 
       {response && (
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-          <h2 className="font-semibold mb-2">Response:</h2>
-          <p className="whitespace-pre-wrap">{response}</p>
+        <div className="mt-6 p-4 bg-gray-50 rounded-lg flex items-start">
+          <div className="flex-shrink-0 mr-3">
+            {/* Placeholder Assistant Icon (replace with your image or SVG) */}
+            <svg className="h-8 w-8 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+          <div>
+            <h2 className="font-semibold mb-2">Response:</h2>
+            <p className="whitespace-pre-wrap">{response}</p>
+          </div>
         </div>
       )}
 
       <footer className="mt-8 text-center text-sm text-gray-600">
         <p>This is an AI-powered service. Responses may not always be accurate.</p>
         <a
-          href="https://github.com/maryiababinova/nyc-help"
+          href="https://github.com/malyavka/NYC_Help_Me"
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 hover:underline mt-2 inline-block"

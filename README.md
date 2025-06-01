@@ -1,6 +1,10 @@
 # NYC Help Me
 
-A web application that helps NYC residents get answers to their questions about city services using AI.
+A web application that helps NYC residents get answers to their questions about city services using AI. Built for the Llama hackathon.
+
+## About
+
+This project was created as part of the Llama hackathon, demonstrating the use of Llama 3 model through Groq's API to provide helpful information about NYC services to residents in multiple languages.
 
 ## Features
 
@@ -12,9 +16,15 @@ A web application that helps NYC residents get answers to their questions about 
 ## Tech Stack
 
 - Frontend: Next.js 14 with TypeScript
+- Backend: Express.js server
 - Styling: Tailwind CSS
-- API: Next.js API Routes
-- AI: LLaMA API (to be integrated)
+- AI: Groq API with Llama 3 model
+
+## Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+- Groq API key
 
 ## Getting Started
 
@@ -31,28 +41,40 @@ npm install
 yarn install
 ```
 
-3. Run the development server:
+3. Set up environment variables:
+Create a `.env` file in the root directory with:
+```
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+4. Start the backend server:
+```bash
+node src/server/server.js
+```
+The backend server will run on http://localhost:3001
+
+5. In a new terminal, start the frontend development server:
 ```bash
 npm run dev
 # or
 yarn dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Project Structure
 
 ```
 src/
-├── app/
+├── app/                    # Next.js frontend
 │   ├── api/
 │   │   └── ask/
 │   │       └── route.ts    # API endpoint for questions
-│   │   ├── layout.tsx          # Root layout
-│   │   ├── page.tsx           # Main page component
-│   │   └── globals.css        # Global styles
-│   ├── components/            # Reusable components
-│   └── lib/                  # Utility functions
+│   ├── layout.tsx          # Root layout
+│   ├── page.tsx           # Main page component
+│   └── globals.css        # Global styles
+├── server/                # Express backend
+│   └── server.js         # Backend server implementation
 ```
 
 ## Contributing
