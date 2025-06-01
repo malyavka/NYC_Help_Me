@@ -5,6 +5,7 @@ A web application that helps NYC residents get answers to their questions about 
 ## About
 
 This project was created as part of the Llama hackathon, demonstrating the use of Llama 3 model through Groq's API to provide helpful information about NYC services to residents in multiple languages.
+![ChatGPT Image Jun 1, 2025, 10_23_35 AM](https://github.com/user-attachments/assets/9dd1852e-7288-4dc5-bc1a-646bfc26a0a5)
 
 ## Features
 
